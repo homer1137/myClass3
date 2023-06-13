@@ -3,7 +3,8 @@ import express from 'express'
 import cors from 'cors'
 import { json } from 'body-parser'
 
-import { defaultRouter } from '../router'
+import { defaultRouter } from './router'
+import { errorMiddleware } from './middlewares/error-middleware'
 
 
 dotenv.config()
@@ -14,10 +15,7 @@ const PORT = process.env.PORT || 5000
 app.use(json())
 app.use(cors({credentials: true, origin: process.env.CLIENT_URL}))
 app.use('/api', defaultRouter)
-// app.use('/api', userRouter)
-// app.use('/api', videoRouter)
-// app.use('/api', authorizationRouter)
-// app.use('/api', errorMiddleware)
+app.use('/api', errorMiddleware)
 
 const start = async () => {
   try {
